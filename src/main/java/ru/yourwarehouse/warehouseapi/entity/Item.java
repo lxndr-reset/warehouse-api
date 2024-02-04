@@ -1,117 +1,56 @@
 package ru.yourwarehouse.warehouseapi.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
-import java.sql.Timestamp;
-import java.util.Objects;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity
-@Table(name = "\"item\"")
+@Entity @Table(name = "\"item\"")
+@Getter @ToString @Builder
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Item {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "article")
+    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "article")
+    @Setter
+    @NotEmpty
     private UUID article;
 
-    @NotEmpty
-    @Size(min = 2, max = 64)
-    @Column(name = "name")
+    @Size(min = 2, max = 64) @Column(name = "name")
+    @Setter @NotEmpty
     private String name;
 
-    @Size(max = 640)
-    @Column(name = "description")
+    @Size(max = 640) @Column(name = "description")
+    @Setter
     private String description;
 
     @ManyToOne(fetch = LAZY, cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "category", referencedColumnName = "name")
+    @NotEmpty @Setter
     private Category category;
 
-    @PositiveOrZero
-    @Column(name = "count")
+    @PositiveOrZero @Column(name = "count")
+    @Setter
     private int count;
 
-    @PastOrPresent
+    @PastOrPresent @NotNull
     @Column(name = "edition_date")
-    private Timestamp lastChangesDate;
+    private LocalDateTime lastEditionDate;
 
-    @PastOrPresent
+    @PastOrPresent @NotNull
     @Column(name = "creation_date")
-    private final Timestamp creationDate;
+    private final LocalDateTime creationDate;
 
     public Item() {
-        this.creationDate = new Timestamp(System.currentTimeMillis());
+        creationDate = LocalDateTime.now();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item item)) return false;
-        return getCount() == item.getCount() && Objects.equals(getArticle(), item.getArticle()) && Objects.equals(getName(), item.getName()) && Objects.equals(getDescription(), item.getDescription()) && Objects.equals(getCategory(), item.getCategory()) && Objects.equals(getLastChangesDate(), item.getLastChangesDate()) && Objects.equals(getCreationDate(), item.getCreationDate());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getArticle(), getName(), getDescription(), getCategory(), getCount(), getLastChangesDate(), getCreationDate());
-    }
-
-    public void setArticle(UUID article) {
-        this.article = article;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setCount(int amount) {
-        this.count = amount;
-    }
-
-    public void setLastChangesDate(Timestamp lastChangesDate) {
-        this.lastChangesDate = lastChangesDate;
-    }
-
-    public UUID getArticle() {
-        return article;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public Timestamp getLastChangesDate() {
-        return lastChangesDate;
-    }
-
-    public Timestamp getCreationDate() {
-        return creationDate;
+    public void setLastEditionDateNow() {
+        lastEditionDate = LocalDateTime.now();
     }
 }

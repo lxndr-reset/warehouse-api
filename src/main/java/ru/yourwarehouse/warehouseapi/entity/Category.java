@@ -1,37 +1,25 @@
 package ru.yourwarehouse.warehouseapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "\"category\"")
+@Entity @Table(name = "\"category\"")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter @Builder
+@EqualsAndHashCode
+@ToString
 public class Category {
-    @Id
+    @Id @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
+    @NotEmpty
     private UUID id;
 
     @Size(min = 2, max = 100)
+    @Column(name = "name")
     private String categoryName;
-
-    public Category() {
-
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 }
