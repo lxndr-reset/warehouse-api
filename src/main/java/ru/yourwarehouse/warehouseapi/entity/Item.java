@@ -10,32 +10,33 @@ import java.util.UUID;
 import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.FetchType.LAZY;
 
+@Getter @ToString
 @Entity @Table(name = "\"item\"")
-@Getter @ToString @Builder
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Item {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "article")
-    @Setter
-    @NotEmpty
+    @Id
+    @NotNull @Setter
+    @Column(name = "article")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID article;
 
-    @Size(min = 2, max = 64) @Column(name = "name")
-    @Setter @NotEmpty
+    @Size(min = 2, max = 64)
+    @Column(name = "name") @Setter
     private String name;
 
-    @Size(max = 640) @Column(name = "description")
-    @Setter
+    @Column(name = "description")
+    @Setter @Size(max = 640)
     private String description;
 
-    @ManyToOne(fetch = LAZY, cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @NotNull @Setter
     @JoinColumn(name = "category", referencedColumnName = "name")
-    @NotEmpty @Setter
+    @ManyToOne(fetch = LAZY, cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private Category category;
 
-    @PositiveOrZero @Column(name = "count")
-    @Setter
+    @Column(name = "count")
+    @PositiveOrZero @Setter
     private int count;
 
     @PastOrPresent @NotNull
@@ -44,10 +45,12 @@ public class Item {
 
     @PastOrPresent @NotNull
     @Column(name = "creation_date")
-    private final LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 
     public Item() {
-        creationDate = LocalDateTime.now();
+        if (creationDate == null){
+            creationDate = LocalDateTime.now();
+        }
     }
 
     public void setLastEditionDateNow() {
