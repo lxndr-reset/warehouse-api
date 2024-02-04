@@ -11,12 +11,17 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class ItemService {
+
     private final ItemRepository itemRepository;
 
     public Optional<Item> get(UUID id) {
         return itemRepository.findById(id);
     }
 
+    /**
+     * Before saving method sets the last edition date as now
+     * So you don't have to :D
+     */
     public Optional<Item> save(Item item) {
         item.setLastEditionDateNow();
 
@@ -26,6 +31,7 @@ public class ItemService {
     public void delete(Item item) {
         itemRepository.delete(item);
     }
+
     public void delete(UUID uuid) {
         itemRepository.deleteById(uuid);
     }
