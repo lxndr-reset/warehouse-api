@@ -14,6 +14,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class Category {
+
     @Id @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
     @NotEmpty

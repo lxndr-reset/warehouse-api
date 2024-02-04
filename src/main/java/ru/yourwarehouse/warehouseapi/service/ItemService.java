@@ -19,10 +19,14 @@ public class ItemService {
 
     public Optional<Item> save(Item item) {
         item.setLastEditionDateNow();
+
         return Optional.of(itemRepository.save(item));
     }
 
     public void delete(Item item) {
         itemRepository.delete(item);
+    }
+    public void delete(UUID uuid) {
+        itemRepository.deleteById(uuid);
     }
 }
