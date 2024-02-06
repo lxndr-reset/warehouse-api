@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class WarehouseApiApplication {
 
     /**
-     * @param args format: --db.url= --db.username= --db.pass=
+     * @param args format: --db.url= --db.username= --db.pass= (any order)
      */
     public static void main(String[] args) {
         SpringApplication.run(WarehouseApiApplication.class, args);
