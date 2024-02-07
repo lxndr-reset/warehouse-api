@@ -32,7 +32,7 @@ public class Item {
 
     @NotNull @Setter
     @JoinColumn(name = "category", referencedColumnName = "name")
-    @ManyToOne(fetch = LAZY, cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne(fetch = LAZY, cascade = {DETACH, MERGE, REFRESH})
     private Category category;
 
     @Column(name = "count")
